@@ -1,1 +1,4 @@
-Mettre dans ce dossier tous les fichiers texte de compte rendu de réunion de début de journée
+Dossier contenant tous les fichiers de compte-rendu de début/fin de journée.
+Le fichier portera le nom "CR_MM__JJ" avec MM le mois et JJ le jour de compte-rendu.
+Le fichier contiendra l'ensemble des tâches à réaliser pour la journée, ainsi que les différentes tâches qui seront affectées à chaque membre du groupe. 
+En fin de document, indiquer les tâches réalisées ainsi que le prochain animateur de réunion pour la semaine prochaine.
