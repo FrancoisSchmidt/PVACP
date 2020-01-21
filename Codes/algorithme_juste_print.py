@@ -58,6 +58,7 @@ while True:
 	faces=detector(gray, 0)
 	if faces is not None:
 		i=np.zeros(shape=(frame.shape), dtype=np.uint8)	#Si pas de visage détécté, Matrice de zéros
+		txt = str(compteur_frame)+"  No face found"
 	for face in faces:
 		landmarks=predictor(gray, face)
 
