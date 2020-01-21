@@ -136,7 +136,6 @@ while True:
 				OEIL=False
 				OEIL_droit=False
 
-
 		txt = str(compteur_frame)+"  "
 		if not OEIL_gauche:
 			txt+="0"
@@ -147,23 +146,17 @@ while True:
 		else:
 			txt+="- "		
 			
-		
-
 		if OEIL==True and mar > MOUTH_AR_THRESH and a1<40 and a1>-40:	#Si l'oei est fermé et la bouche ouverte
 			txt+=' veut remise à zéro'		#Remise à zéro du gouvernail
 		else:
 			flag=1
-
 			if a1<-40 and OEIL==True:		#Si la tête est inclinée vers la gauche et au moins un oeil est fermé
 				txt+=" veut tourner a gauche "
-				#print("Gauche")
+
 			if a1>40 and OEIL==True:		#Si la tête est inclinée vers la droite et au moins un oeil est fermé
 				txt+=" veut tourner a droite "
-				#print("Droite")
 
 	print(txt)
-		#cv2.putText(frame, txt, (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.2, (255, 255, 255), 2)	#Affichage du texte
-	#cv2.imshow("Frame", frame)	#Affichage du visuel
 	key=cv2.waitKey(1)&0xFF
 	if key==ord('q'):
 		break
