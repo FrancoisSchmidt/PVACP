@@ -9,4 +9,4 @@
 17h20 : - 
 -	JB + François : Ils ont commencé de flasher la nouvelle carte Raspberry « 4GB » et ça va continuer jusqu’à la semaine prochaine.
 -	Ahmed : il a compris le code python + il va faire une recherche sur la validation de l’environnement pour le système.
--	Mohammed : Il a fini le diagramme de Gantt mais il y aura des mises à jour dessus + Ahmed va me faire comprendre du code python pendant la semaine.
+-	Mohammed : Il a fini le diagramme de Gantt mais il y aura des mises à jour dessus + Ahmed va me faire comprendre le code python pendant la semaine.
