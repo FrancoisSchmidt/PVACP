@@ -16,4 +16,5 @@ Fait par JB GUERIN
 13h30 :
 MaJ à faire sur le code par François:
 - corriger le fait que la commande saute sur un frame de temps en temps.
-- utiliser une variable "commande" (sur 8 bits) au lieu des 'print'.
+- utiliser une variable "commande" au lieu des 'print'.
+JB : ajout de la fonction dec2bin (la commande à envoyer sur le bus CAN est codée sur 8 bits).
