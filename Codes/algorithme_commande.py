@@ -51,6 +51,7 @@ COUNTER_left = 0
 OEIL=False						#Oeil=False s'il est ouvert, et True s'il est fermé
 OEIL_gauche = False
 OEIL_droit = False
+Commande = 0
 
 cap = cv2.VideoCapture(0)
 
@@ -62,6 +63,7 @@ predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")		#Impo
 compteur_frame = 0
 
 while True:
+	Commande = None
 	compteur_frame += 1
 	ret, frame = cap.read()						#Leture de frame
 	frame = imutils.resize(frame, width=450)	#Resize
@@ -70,7 +72,7 @@ while True:
 	faces=detector(gray, 0)
 	if faces is not None:
 		i=np.zeros(shape=(frame.shape), dtype=np.uint8)	#Si pas de visage détécté, Matrice de zéros
-		txt = str(compteur_frame)+"  No face found"
+		#txt = str(compteur_frame)+"  No face found"
 	for face in faces:
 		landmarks=predictor(gray, face)
 
@@ -149,27 +151,20 @@ while True:
 				OEIL_droit=False
 
 		txt = str(compteur_frame)+"  "
-		if not OEIL_gauche:
-			txt+="0"
-		else:
-			txt+="-"
-		if not OEIL_droit:
-			txt+="0 "
-		else:
-			txt+="- "		
+			
 			
 		if OEIL==True and mar > MOUTH_AR_THRESH and a1<40 and a1>-40:	#Si l'oei est fermé et la bouche ouverte
-			txt+=' veut remise à zéro'		#Remise à zéro du gouvernail
+			Commande = 55
 		else:
 			flag=1
 			if a1<-40 and OEIL==True:		#Si la tête est inclinée vers la gauche et au moins un oeil est fermé
-				txt+=" veut tourner a gauche "
+				Commande = -127
 
 			if a1>40 and OEIL==True:		#Si la tête est inclinée vers la droite et au moins un oeil est fermé
-				txt+=" veut tourner a droite "
+				Commande = 127
 
 
-	print(txt)
+	print(txt, Commande)
 	key=cv2.waitKey(1)&0xFF
 	if key==ord('q'):
 		break
