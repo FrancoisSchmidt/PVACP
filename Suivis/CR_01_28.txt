@@ -8,3 +8,7 @@ Fait par JB GUERIN
 - Ahmad : Étudier la validation du système + exécuter le code avec Mohammed pour comprendre son fonctionnement.
 - Mohammed : Exécuter le code avec Ahmad pour comprendre son fonctionnement + regarder les tests de validation du système avec Ahmad.
 
+
+12h00 :
+- JB : N'a pas réussi à lancer la Raspberry et afficher l'écran pour faire le test. Attend François cet après-midi pour récupérer la clé pour reflasher la carte. A avancé le rapport en attendant.
+- Ahmad & Mohammed : ont installé les librairies nécessaires. Ont des problèmes pour installer la bibliothèque dlib. Tentative d'installation de Visual Studio pour régler le souci d'ici cet après-midi.
