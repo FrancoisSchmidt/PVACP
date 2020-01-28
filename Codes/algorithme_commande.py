@@ -48,32 +48,32 @@ OPEN_COUNTER_right = 0			#Compteur oeil droit
 OPEN_COUNTER_left = 0			#Compteur oeil gauche
 COUNTER_right = 0
 COUNTER_left = 0 
-OEIL=False						#Oeil=False s'il est ouvert, et True s'il est fermé
-OEIL_gauche = False
-OEIL_droit = False
+OEIL=False						#Oeil=True si au moins un des deux yeux est fermé 
+OEIL_gauche = False				#Même chose que OEIL, mais seulement pour le gauche
+OEIL_droit = False				#Même chose mais pour le droit
 Commande = 0
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)		#Acquisition du flux vidéo provenant de la webcam
 
-detector = dlib.get_frontal_face_detector()									#Importation du face_detector de dlib
+detector = dlib.get_frontal_face_detector()										#Importation du face_detector de dlib
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")		#Importation de la base de données de visages
 
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]		#Coordonnées de l'oeil gauche
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]		#Coordonnées de l'oeil droit
-compteur_frame = 0
+compteur_frame = 0													#Compteur de frames écoulées depuis le début de l'algorithme
 
 while True:
-	Commande = None
-	compteur_frame += 1
-	ret, frame = cap.read()						#Leture de frame
-	frame = imutils.resize(frame, width=450)	#Resize
-	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-	tickmark = cv2.getTickCount()				#Nombre de ticks
-	faces=detector(gray, 0)
+	Commande = None									#Pas de commande
+	compteur_frame += 1								#On incrémente le numéro de frame
+	ret, frame = cap.read()							#Leture de frame
+	frame = imutils.resize(frame, width=450)		#Resize (utile seulement pour l'affichage avec cv2, à supprimer à la fin)
+	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)	#Conversion de l'image en nuances de noir et blanc
+	#tickmark = cv2.getTickCount()					#Nombre de ticks
+	faces=detector(gray, 0)							#Recherche de visages
 	if faces is not None:
 		i=np.zeros(shape=(frame.shape), dtype=np.uint8)	#Si pas de visage détécté, Matrice de zéros
-		#txt = str(compteur_frame)+"  No face found"
-	for face in faces:
+		txt = str(compteur_frame)+"  No face found"
+	for face in faces:								#Pour tous les visages trouvés (en l'occurence un seul, celui du pilote, donc boucle for itérée une seule fois)
 		landmarks=predictor(gray, face)
 
 		#Calcul de coefficients pour l'inclinaison de la tête.
@@ -87,61 +87,38 @@ while True:
 		cosb=min((math.pow(d2, 2)-math.pow(d1, 2)+math.pow(d_eyes, 2))/(2*d2*d_eyes), 1)
 		a3=int(250*(d2*math.sin(math.acos(cosb))-coeff/4)/coeff)
 
-		"""
-		for n in range(0, 68):
-			x=landmarks.part(n).x
-			y=landmarks.part(n).y
-			cv2.circle(frame, (x,y), 3, (255,0,0), -1)
-			if n==30 or n==36 or n==45:
-				cv2.circle(i, (x, y), 3, (255, 255, 0), -1)	#Dessin du contour du visage
-			else:
-				cv2.circle(i, (x, y), 3, (255, 0, 0), -1)
-		"""
 
-		shape = predictor(gray, face)
-		shape = face_utils.shape_to_np(shape)
-		mouth = shape[48:58]		#Coordonées de la bouche
-		"""
-		cv2.circle(frame ,(mouth[0][0],mouth[0][1]),3, (0, 0, 255), -1)		#Marque les contours de la bouche
-		cv2.circle(frame ,(mouth[-1][0],mouth[-1][1]),3, (0, 0, 255), -1)
-		cv2.circle(frame ,(mouth[3][0],mouth[3][1]),3, (0, 0, 255), -1)
-		cv2.circle(frame ,(mouth[6][0],mouth[6][1]),3, (0, 0, 255), -1)
-		"""
+		shape = predictor(gray, face)				#Predictor appliqué sur le visage
+		shape = face_utils.shape_to_np(shape)		#Conversion en matrice en fonction des points prédéfinis (voir doc dlib)
+		mouth = shape[48:58]						#Coordonées de la bouche
 		mar = mouth_aspect_ratio(mouth)				#Calcule le mouth aspect ratio
 
 		leftEye = shape[lStart:lEnd]				#Récupère les coordonnées de l'oeil gauche
 		rightEye = shape[rStart:rEnd]				#Récupère les coordonnées de l'oeil droite
 		leftEAR = eye_aspect_ratio(leftEye)			#Calcule le eye aspect ratio oeil gauche
-		rightEAR = eye_aspect_ratio(rightEye)		#De même oeil droit
+		rightEAR = eye_aspect_ratio(rightEye)		#Calcule le eye aspect ratio oeil droit
 		ear = (leftEAR + rightEAR) / 2.0			#Moyenne des deux yeux
 
-		"""
-		leftEyeHull = cv2.convexHull(leftEye)		
-		rightEyeHull = cv2.convexHull(rightEye)
-		cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)	#Dessin du contour des yeux
-		cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
-		"""
 
-
-		if leftEAR < EYE_AR_THRESH:		#Si l'oeil gauche est considéré comme fermé
-			COUNTER_left += 1			#Incrémentation du compteur de frame
-			OPEN_COUNTER_left = 0		
-			if COUNTER_left >= EYE_AR_CONSEC_FRAMES:	#Si l'oei est fermé depuis "EYE_AR_CONSEC_FRAMES", alors affiché qu'il est fermé
-				OEIL=True	#Oeil fermé
-				OEIL_gauche=True
-		else:
-			OPEN_COUNTER_left += 1		
+		if leftEAR < EYE_AR_THRESH:						#Si l'oeil gauche est considéré comme fermé
+			COUNTER_left += 1							#Incrémentation du compteur de frame de fermeture de l'oeil
+			OPEN_COUNTER_left = 0						
+			if COUNTER_left >= EYE_AR_CONSEC_FRAMES:	#Si l'oei est fermé depuis "EYE_AR_CONSEC_FRAMES", alors affiché qu'il est fermé (permet de ne pas déclencher par erreur avec un clignement d'une frame
+				OEIL=True								#Au moins un oeil fermé
+				OEIL_gauche=True						#Oeil gauche fermé
+		else:											#Sinon, si l'oeil gauche est ouvert
+			OPEN_COUNTER_left += 1						#On compte le nombre de frame depuis qu'il s'est ouvert
 			if OEIL == True and OPEN_COUNTER_left < EYE_CLOSE_FRAMES:	#Si l'oeil était fermé et qu'il n'est ouvert que depuis EYE_CLOSE_FRAMES frames, le considérer encore comme fermé
-				OEIL=True
+				OEIL=True								#L'oeil est encore considéré comme fermé
 				OEIL_gauche=True
 
-			else:			#Sinon, le considérer comme ouvert
-				COUNTER_left = 0
-				OEIL=False
+			else:										#Sinon, le considérer comme ouvert
+				COUNTER_left = 0						#On réinitialise le compteur
+				OEIL=False								
 				OEIL_gauche=False
 
-
-		if rightEAR < EYE_AR_THRESH:	#Même chose avec l'oeil droit
+		#Même chose avec l'oeil droit
+		if rightEAR < EYE_AR_THRESH:
 			COUNTER_right += 1
 			OPEN_COUNTER_right = 0
 			if COUNTER_right >= EYE_AR_CONSEC_FRAMES:
@@ -157,7 +134,7 @@ while True:
 				OEIL=False
 				OEIL_droit=False
 
-		txt = str(compteur_frame)+"  "
+		txt = str(compteur_frame)+"  "		#Affichage du nombre de frames dans la console
 			
 			
 		if OEIL==True and mar > MOUTH_AR_THRESH and a1<40 and a1>-40:	#Si l'oeil est fermé et la bouche ouverte

@@ -48,11 +48,11 @@ OPEN_COUNTER_right = 0			#Compteur oeil droit
 OPEN_COUNTER_left = 0			#Compteur oeil gauche
 COUNTER_right = 0
 COUNTER_left = 0 
-OEIL=False						#Oeil=False s'il est ouvert, et True s'il est fermé
-OEIL_gauche = False
-OEIL_droit = False
+OEIL=False						#Oeil=True si au moins un des deux yeux est fermé 
+OEIL_gauche = False             #Même chose que OEIL, mais seulement pour le gauche
+OEIL_droit = False              #Même chose mais pour le droit
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)       #Acquisition du flux vidéo provenant de la webcam
 
 detector = dlib.get_frontal_face_detector()									#Importation du face_detector de dlib
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")		#Importation de la base de données de visages
