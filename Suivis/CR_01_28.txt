@@ -14,6 +14,6 @@ Fait par JB GUERIN
 - Ahmad & Mohammed : ont installé les librairies nécessaires. Ont des problèmes pour installer la bibliothèque dlib. Tentative d'installation de Visual Studio pour régler le souci d'ici cet après-midi.
 
 13h30 :
-MaJ à faire sur le code :
+MaJ à faire sur le code par François:
 - corriger le fait que la commande saute sur un frame de temps en temps.
 - utiliser une variable "commande" (sur 8 bits) au lieu des 'print'.
