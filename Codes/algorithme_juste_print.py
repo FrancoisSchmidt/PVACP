@@ -25,6 +25,18 @@ def mouth_aspect_ratio(mouth):
 	mar = B / A
 	return mar
 
+def dec2bin(d,nb=8):
+    """Représentation d'un nombre entier en binaire"""
+    if d == 0:
+        return "0".zfill(nb)
+    if d<0:
+        d += 1<<nb
+    b=""
+    while d != 0:
+        d, r = divmod(d, 2)
+        b = "01"[r] + b
+    return b.zfill(nb)
+
 
 EYE_AR_THRESH = 0.26			#Constante en-deça de laquelle l'oeil est considéré comme fermé
 EYE_AR_CONSEC_FRAMES = 5		#Nombre de frames minimum pour considérer l'oeil comme fermé
