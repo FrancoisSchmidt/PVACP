@@ -18,3 +18,9 @@ MaJ à faire sur le code par François:
 - corriger le fait que la commande saute sur un frame de temps en temps.
 - utiliser une variable "commande" au lieu des 'print'.
 JB : ajout de la fonction dec2bin (la commande à envoyer sur le bus CAN est codée sur 8 bits).
+
+17h30
+François : Nouvelle version du code avec une variable commande pour commander le vérin. Commentaire des différents codes pour plus de lisibilité.
+JB : a pris contact avec Cédric Boudin afin d'obtenir le nouveau matériel (Verrin) pour les tests de la semaine prochaine
+JB : aide dans le développement du code, refactorisation du code pour optimisation + implémentation de méthode de conversion en binaire pour le BUS/CAN
+Ahmad et Mohammed : ont réussi à installer toutes les bibliothèques afin de faire fonctionner le code sur leurs ordinateurs personnels.
