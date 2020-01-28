@@ -27,11 +27,11 @@ def mouth_aspect_ratio(mouth):
 
 
 EYE_AR_THRESH = 0.26			#Constante en-deça de laquelle l'oeil est considéré comme fermé
-EYE_AR_CONSEC_FRAMES = 7		#Nombre de frames minimum pour considérer l'oeil comme fermé
+EYE_AR_CONSEC_FRAMES = 5		#Nombre de frames minimum pour considérer l'oeil comme fermé
 MOUTH_AR_THRESH = 0.5			#Constante au dela de laquelle la bouche est considérée comme ouverte
-MOUTH_AR_CONSEC_FRAMES = 7		#Nombre de frames minimum pour considérer la bouche comme ouverte
+MOUTH_AR_CONSEC_FRAMES = 5		#Nombre de frames minimum pour considérer la bouche comme ouverte
 
-EYE_CLOSE_FRAMES = 10			#Nombre de frames pendant lesquelles l'oeil est encore considéré comme fermé
+EYE_CLOSE_FRAMES = 5			#Nombre de frames pendant lesquelles l'oeil est encore considéré comme fermé
 OPEN_COUNTER_right = 0			#Compteur oeil droit
 OPEN_COUNTER_left = 0			#Compteur oeil gauche
 COUNTER_right = 0
