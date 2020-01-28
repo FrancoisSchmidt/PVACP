@@ -87,6 +87,7 @@ while True:
 		cosb=min((math.pow(d2, 2)-math.pow(d1, 2)+math.pow(d_eyes, 2))/(2*d2*d_eyes), 1)
 		a3=int(250*(d2*math.sin(math.acos(cosb))-coeff/4)/coeff)
 
+		"""
 		for n in range(0, 68):
 			x=landmarks.part(n).x
 			y=landmarks.part(n).y
@@ -95,14 +96,17 @@ while True:
 				cv2.circle(i, (x, y), 3, (255, 255, 0), -1)	#Dessin du contour du visage
 			else:
 				cv2.circle(i, (x, y), 3, (255, 0, 0), -1)
-	
+		"""
+
 		shape = predictor(gray, face)
 		shape = face_utils.shape_to_np(shape)
 		mouth = shape[48:58]		#Coordonées de la bouche
+		"""
 		cv2.circle(frame ,(mouth[0][0],mouth[0][1]),3, (0, 0, 255), -1)		#Marque les contours de la bouche
 		cv2.circle(frame ,(mouth[-1][0],mouth[-1][1]),3, (0, 0, 255), -1)
 		cv2.circle(frame ,(mouth[3][0],mouth[3][1]),3, (0, 0, 255), -1)
 		cv2.circle(frame ,(mouth[6][0],mouth[6][1]),3, (0, 0, 255), -1)
+		"""
 		mar = mouth_aspect_ratio(mouth)				#Calcule le mouth aspect ratio
 
 		leftEye = shape[lStart:lEnd]				#Récupère les coordonnées de l'oeil gauche
@@ -110,10 +114,13 @@ while True:
 		leftEAR = eye_aspect_ratio(leftEye)			#Calcule le eye aspect ratio oeil gauche
 		rightEAR = eye_aspect_ratio(rightEye)		#De même oeil droit
 		ear = (leftEAR + rightEAR) / 2.0			#Moyenne des deux yeux
+
+		"""
 		leftEyeHull = cv2.convexHull(leftEye)		
 		rightEyeHull = cv2.convexHull(rightEye)
 		cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)	#Dessin du contour des yeux
 		cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
+		"""
 
 
 		if leftEAR < EYE_AR_THRESH:		#Si l'oeil gauche est considéré comme fermé
@@ -153,7 +160,7 @@ while True:
 		txt = str(compteur_frame)+"  "
 			
 			
-		if OEIL==True and mar > MOUTH_AR_THRESH and a1<40 and a1>-40:	#Si l'oei est fermé et la bouche ouverte
+		if OEIL==True and mar > MOUTH_AR_THRESH and a1<40 and a1>-40:	#Si l'oeil est fermé et la bouche ouverte
 			Commande = 55
 		else:
 			flag=1
