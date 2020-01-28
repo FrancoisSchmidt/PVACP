@@ -1,0 +1,10 @@
+Mardi 28 janvier 2020
+Groupe PVACP
+Fait par JB GUERIN
+
+8h10 :
+- François : absent
+- JB : La PI4 étant prête, test de l'exécution du programme sans affichage et contact de Cédric + compléter le rapport avec la PI 4.
+- Ahmad : Étudier la validation du système + exécuter le code avec Mohammed pour comprendre son fonctionnement.
+- Mohammed : Exécuter le code avec Ahmad pour comprendre son fonctionnement + regarder les tests de validation du système avec Ahmad.
+
