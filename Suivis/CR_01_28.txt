@@ -12,3 +12,8 @@ Fait par JB GUERIN
 12h00 :
 - JB : N'a pas réussi à lancer la Raspberry et afficher l'écran pour faire le test. Attend François cet après-midi pour récupérer la clé pour reflasher la carte. A avancé le rapport en attendant.
 - Ahmad & Mohammed : ont installé les librairies nécessaires. Ont des problèmes pour installer la bibliothèque dlib. Tentative d'installation de Visual Studio pour régler le souci d'ici cet après-midi.
+
+13h30 :
+MaJ à faire sur le code :
+- corriger le fait que la commande saute sur un frame de temps en temps.
+- utiliser une variable "commande" (sur 8 bits) au lieu des 'print'.
