@@ -3,8 +3,14 @@ Groupe PVACP
 Fait par François SCHMIDT
 
 8h10
-- François : mise en place d'un étalonneur dans l'algorithme (pour mettre en place la constante à partir de laquelle on considère les yeux fermés).
+- François : mise en place d'un calibreur dans l'algorithme (pour mettre en place la constante à partir de laquelle on considère les yeux fermés).
 - Ahmad et Mohammed : vont travailler sur le code et vont essayer de faire en sorte que la direction se face grace au lacet de la tête et non au roulis.
 - JB : création d'un simulateur pour le démonstrateur final.
 
 -> 11h rdv avec Cédric BOUDIN pour compte rendu de projet et récupération de matériel.
+
+
+17h30
+- JB : a bien avancé dans le simulateur du démonstrateur final. Cela fonctionne avec un bateau et un gouvernail. Cela ne fonctionne pas encore (mias presque) avec un voilier. Il faut gérer l'orientation de la voile
+- François : a fini le calibreur afin d'avoir le bon EAR
+- Ahmad et Mohammed : ont réussi à détecter quand on regarde vers la droite et la gauche. Cependant, une fois qu'on a regardé vers une direction, la commande est bloquée sur cette direction. Si je regarde une fois à droite, quoi que je fasse après, il y aura "droite" qui s'ecrira en boucle dans la console.
