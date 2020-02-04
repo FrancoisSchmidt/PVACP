@@ -266,4 +266,4 @@ def lancer_commande():
 
 if __name__=="__main__":
 	calibration()
-	#lancer_commande()
+	lancer_commande()
