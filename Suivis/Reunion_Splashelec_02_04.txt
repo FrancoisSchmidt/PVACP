@@ -1,0 +1,22 @@
+Réunion du 4 février, 11h
+Présents : Bernt Weber / Cédric Boudin / François Schmidt / J-B Guérin / Mohammed Alzahrani / Ahmad El Katib
+
+Points abordés :
+
+--> Présentation de nos avancés à Bernt et Cédric
+
+--> Problèmes soulevés par Bernt :
+-Voir l'efficacité de l'algorithme en condition réele : quand il y a du soleil, on plisse les yeux. Voir si cela impacte vraiment l'Eye Aspect Ratio
+-Quand on fait de la voile, généralement on a des lunettes de soleil. Il faut donc voir si cela pose un problème pour la détection du visage. Voir une alternative au clignement des yeux
+
+--> Conseils
+-L'algorithme de reconnaissance faciale pourra renvoyer une commande absolue (soit -128, soit +127). Le verrin se passera pas d'un coup à une position extrême à cause des contraintes mécaniques. Si jamais on trouve que c'est trop rapide, on pourra tout de même choisir une méthode incrémentative de la commande envoyée au verrin.
+-Pour l'alimentation du boitier relié au verrin, il faut du courant continu 12V, 10A. Alim de labo (bloc alim PC portable) seront suffisants, pas besoin de batterie
+-Pour des soucis de fluidité de calcul (pour ne pas avoir de retard dans les ordres donnés au bateau), on pourrait penser à paramétrer directement la caméra à 10 fps pour favoriser la fluidité du calcul.
+
+--> Autres problèmes soulevés
+-Si on est pas en mode commande, c'est comme si on lachait la barre, le bateau va forcement dériver. Si le visage n'est plus détecté, il n'y a plus de commande envoyée, et donc le verrin retourne tout de suite à la position 0. Pour pallier le problème :si on donnait une commande +127, soudainement on perd le visage, on doit donc garder la commande +127, et la décrémenter petit a petit vers 0. Faire ça jusqu'a qu'il retrouve le visage.
+
+--> A faire
+-Traiter tous les problèmes abordés durant la réunion
+-Transmettre à Cedric la date des présentations de projet
