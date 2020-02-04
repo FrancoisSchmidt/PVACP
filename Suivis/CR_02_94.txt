@@ -1,0 +1,9 @@
+Mardi 04 février 2020
+Groupe PVACP
+Fait par François SCHMIDT
+
+8h10
+- François : mise en place d'un étalonneur dans l'algorithme (pour mettre en place la constante à partir de laquelle on considère les yeux fermés) 
+6- Ahmad et Mohammed : vont travailler sur le code et vont essayer de faire en sorte que la direction se face grace au lacet de la tête et non au roulis
+
+-> 11h rdv avec Cédric pour compte rendu de projet
