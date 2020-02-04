@@ -71,7 +71,6 @@ def calibration():
 		ret, frame = cap.read()						#Leture de frame
 		frame = imutils.resize(frame, width=450)	#Resize
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-		tickmark = cv2.getTickCount()				#Nombre de ticks
 		faces=detector(gray, 0)
 		if depart==False:
 			cv2.putText(frame, 'Pas de visage detecte', (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.2, (255, 255, 255), 2)	#Affichage du texte
@@ -119,16 +118,18 @@ def calibration():
 			if ouverture == False:
 				compteur_ouverture += 1
 				txt = "Gardez les yeux ouverts"
-				liste_ouverture.append(ear)
-				if compteur_ouverture > 100:
+				if compteur_ouverture>50:
+					liste_ouverture.append(ear)
+				if compteur_ouverture > 150:
 					ouverture = True
 			
 			if ouverture:
 				if fermeture == False:
 					compteur_fermeture += 1
 					txt = "Gardez les yeux fermes"
-					liste_fermeture.append(ear)
-					if compteur_fermeture > 100:
+					if compteur_fermeture>50:
+						liste_fermeture.append(ear)
+					if compteur_fermeture > 150:
 						fermeture = True	
 			
 			if ouverture and fermeture:
@@ -141,8 +142,15 @@ def calibration():
 		if key==ord('q'):
 			break
 		if ouverture and fermeture:
+			liste_ouverture.sort()
+			liste_fermeture.sort()
 			print(liste_ouverture)
 			print(liste_fermeture)
+			print(np.mean(liste_ouverture))
+			print(np.mean(liste_fermeture))	
+			print("max : ",max(liste_fermeture))
+			print("moy : ", (np.mean(liste_ouverture)+np.mean(liste_fermeture))/2)
+			EYE_AR_THRESH = max(liste_fermeture)
 			break
 	cv2.destroyAllWindows()
 
