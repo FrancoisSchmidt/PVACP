@@ -187,10 +187,11 @@ while True:
                 msg_a_envoyer =dec2bin(0)
 
 
+
         cv2.putText(frame, txt, (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.2, (255, 255, 255), 2)  # Affichage du texte
 
-        #msg_a_envoyer = msg_a_envoyer.encode()
 
+    print(msg_a_envoyer)
     connexion_avec_serveur.send(msg_a_envoyer.encode())
 
 

@@ -17,7 +17,7 @@ while serveur_lance:
     # Pour cela, on écoute la connexion_principale en lecture
     # On attend maximum 50ms
     connexions_demandees, wlist, xlist = select.select([connexion_principale],
-                                                       [], [], 0.05)
+                                                       [], [], 0.025)
 
     for connexion in connexions_demandees:
         connexion_avec_client, infos_connexion = connexion.accept()
@@ -33,7 +33,7 @@ while serveur_lance:
     clients_a_lire = []
     try:
         clients_a_lire, wlist, xlist = select.select(clients_connectes,
-                                                     [], [], 0.05)
+                                                     [], [], 0.025)
     except select.error:
         pass
     else:
