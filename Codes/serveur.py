@@ -15,7 +15,7 @@ clients_connectes = []
 while serveur_lance:
     # On va vérifier que de nouveaux clients ne demandent pas à se connecter
     # Pour cela, on écoute la connexion_principale en lecture
-    # On attend maximum 50ms
+    # On attend maximum 25ms
     connexions_demandees, wlist, xlist = select.select([connexion_principale],
                                                        [], [], 0.025)
 
@@ -34,6 +34,10 @@ while serveur_lance:
     try:
         clients_a_lire, wlist, xlist = select.select(clients_connectes,
                                                      [], [], 0.025)
+        """NOTE
+        Ici la 0.05 a été modifié en 0.025. En effet, le client envoie plus d'une information en 50ms. Nous raccourcissons don
+        le temps d'attente de reception d'un message du clien à 25ms. Cela nous permet donc de ne recevoir qu'un seul octet
+        sans msg_recu au lieu de 2"""
     except select.error:
         pass
     else:
@@ -43,6 +47,7 @@ while serveur_lance:
             msg_recu = client.recv(1024)
             # Peut planter si le message contient des caractères spéciaux
             msg_recu = msg_recu.decode()
+            print("format", type(msg_recu))
             print("Reçu {}".format(msg_recu))
             #client.send(b"5 / 5")
             if msg_recu == "fin":

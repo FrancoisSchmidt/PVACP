@@ -66,14 +66,14 @@ compteur_frame = 0
 
 
 
-hote = "localhost"
+hote = "192.168.8.199"
 port = 12800
 connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connexion_avec_serveur.connect((hote, port))
 print("Connexion établie avec le serveur sur le port {}".format(port))
 
 
-msg_a_envoyer = dec2bin(0)
+msg_a_envoyer = "0"
 
 while True:
     compteur_frame += 1
@@ -171,20 +171,20 @@ while True:
         print(compteur_frame, '\n')
         if OEIL == True and mar > MOUTH_AR_THRESH and a1 < 40 and a1 > -40:  # Si l'oei est fermé et la bouche ouverte
             print('Remise à zéro')  # Remise à zéro du gouvernail
-            msg_a_envoyer = dec2bin(55)
+            msg_a_envoyer = str(compteur_frame)
         else:
             flag = 1
             txt = "Franz ne fait rien "
             if a1 < -40 and OEIL == True:  # Si la tête est inclinée vers la gauche et au moins un oeil est fermé
                 txt = "Franz veut tourner a gauche "
                 print("Gauche")
-                msg_a_envoyer = dec2bin(-127)
+                msg_a_envoyer = str(compteur_frame)
             elif a1 > 40 and OEIL == True:  # Si la tête est inclinée vers la droite et au moins un oeil est fermé
                 txt = "Franz veut tourner a droite "
                 print("Droite")
-                msg_a_envoyer = dec2bin(127)
+                msg_a_envoyer = str(compteur_frame)
             else:
-                msg_a_envoyer =dec2bin(0)
+                msg_a_envoyer = str(compteur_frame)
 
 
 
@@ -192,12 +192,14 @@ while True:
 
 
     print(msg_a_envoyer)
-    connexion_avec_serveur.send(msg_a_envoyer.encode())
+
+    connexion_avec_serveur.send(str(compteur_frame).encode('utf8'))
 
 
     cv2.imshow("Frame", frame)  # Affichage du visuel
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
+        connexion_avec_serveur.send(("fin").encode())
         break
 
 cap.release()
