@@ -5,7 +5,7 @@ Fait par JB GUERIN
 8h10
 - Ahmad : absent
 - Mohammed : 
-- François : Liaison série entre la Raspberry et l'ordinateur.
+- François : Liaison série entre la Raspberry et l'ordinateur pour envoyer la commande sur le PC.
 - JB : poursuite du simulateur + interface avec Raspberry avec François.
 
 17h30
