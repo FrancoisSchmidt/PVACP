@@ -42,7 +42,7 @@ while serveur_lance:
             # Client est de type socket
             msg_recu = client.recv(1024)
             # Peut planter si le message contient des caractères spéciaux
-            #msg_recu = msg_recu.decode()
+            msg_recu = msg_recu.decode()
             print("Reçu {}".format(msg_recu))
             #client.send(b"5 / 5")
             if msg_recu == "fin":
