@@ -1,0 +1,11 @@
+Mardi 03 mars 2020
+Groupe PVACP
+Fait par JB GUERIN
+
+8h10
+- Ahmad : absent et n'a pas prévenu
+- Mohammed : diagramme de Gantt
+- François : Liaison série entre la Raspberry et l'ordinateur pour envoyer la commande sur le PC.
+- JB : poursuite du simulateur + interface avec Raspberry avec François.
+
+17h30
