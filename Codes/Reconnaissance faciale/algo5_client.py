@@ -173,7 +173,7 @@ while True:
         print(compteur_frame, '\n')
         if OEIL == True and mar > MOUTH_AR_THRESH and a1 < 40 and a1 > -40:  # Si l'oei est fermé et la bouche ouverte
             print('Remise à zéro')  # Remise à zéro du gouvernail
-            msg_a_envoyer = str(0)
+            msg_a_envoyer = str(3)
         else:
             flag = 1
             txt = "Franz ne fait rien "

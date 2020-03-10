@@ -17,7 +17,7 @@ clients_connectes = []
 
 
 dt = 0.1
-awind, ψ = 5, pi/2
+awind, ψ = 50, pi/2
 listex, listey = [], []
 x = array([[0, 0, -3, 3, 0]]).T  # x=(x,y,θ,v,w)
 ax=init_figure(-100,100,-60,60)
@@ -42,7 +42,7 @@ while len(clients_a_lire)==0:
 
 
 
-
+commande = 0
 while serveur_lance:
     for client in clients_a_lire:
         # Client est de type socket
@@ -65,7 +65,7 @@ while serveur_lance:
                 commande = 1
             elif msg_recu == 1:
                 commande = -1
-            else:
+            elif msg_recu == 3:
                 commande = 0
             print("Commande :", commande)
 
