@@ -55,6 +55,7 @@ while serveur_lance:
         if msg_recu != "fin":
 
             clear(ax)
+            update_ax(x,ax)
 
             a = array([[x[0][0]], [x[1][0]]])
             b = array([[x[0][0] + cos(x[2][0])],
@@ -80,10 +81,8 @@ while serveur_lance:
             xdot, δs = f(x, u)
             x = x + dt * xdot
             draw_sailboat(x, δs, u[0, 0], ψ, awind)
-            draw_arrow(75, 40, ψ, 5 * awind, 'red')
-            ax.text(68, 53, "Wind")
-            ax.text(66, 30, "Speed")
-            ax.text(67, 24, str(round(x[3][0], 1)))
+
+
 
 print("Fermeture des connexions")
 for client in clients_connectes:

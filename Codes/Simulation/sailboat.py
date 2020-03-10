@@ -35,8 +35,8 @@ def init_figure(xmin,xmax,ymin,ymax, projection='3d'):
 def clear(ax):
     pause(0.001)
     cla()
-    ax.set_xlim(ax.xmin,ax.xmax)
-    ax.set_ylim(ax.ymin,ax.ymax)
+    # ax.set_xlim(ax.xmin,ax.xmax)
+    # ax.set_ylim(ax.ymin,ax.ymax)
 
 def angle(x):
     x=x.flatten()
@@ -68,6 +68,35 @@ def draw_sailboat(x, δs, δr, ψ, awind):
     plot2D(R @ Rr @ rudder, 'red');
     #draw_arrow(x[0], x[1], ψ, 5 * awind, 'red')
 
+def update_ax(x, ax):
+    abs = str(x[0,0]/100)
+    ord = str(x[1,0]/100)
+
+    if abs[0]=="-":
+        abs = abs[0:2]
+    else:
+        abs = abs[0:1]
+    if ord[0]=="-":
+        ord = ord[0:2]
+    else:
+        ord = ord[0:1]
+    abs = int(abs) * 100
+    ord = int(ord) * 100
+
+
+    limxb = abs-100
+    limxh = abs+100
+    limyb = ord-100
+    limyh = ord+100
+
+    print("Axes : ", x[0,0],limxb,limxh, limyb, limyh)
+
+    ax.set_xlim(limxb, limxh)
+    ax.set_ylim(limyb, limyh)
+    ax.text(68 + (limxb + limxh)/2, 53 + (limyb+limyh)/2, "Wind")
+    ax.text(66 + (limxb + limxh)/2, 30 + (limyb+limyh)/2, "Speed")
+    ax.text(67 + (limxb + limxh)/2, 24 + (limyb+limyh)/2, str(round(x[3][0], 1)))
+    draw_arrow(75+ (limxb + limxh)/2, 40 + (limyb+limyh)/2, ψ, 5 * awind, 'red')
 
 def f(x,u):
     x,u=x.flatten(),u.flatten()
