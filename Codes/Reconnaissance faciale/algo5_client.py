@@ -173,20 +173,20 @@ while True:
         print(compteur_frame, '\n')
         if OEIL == True and mar > MOUTH_AR_THRESH and a1 < 40 and a1 > -40:  # Si l'oei est fermé et la bouche ouverte
             print('Remise à zéro')  # Remise à zéro du gouvernail
-            msg_a_envoyer = str(compteur_frame)
+            msg_a_envoyer = str(0)
         else:
             flag = 1
             txt = "Franz ne fait rien "
             if a1 < -40 and OEIL == True:  # Si la tête est inclinée vers la gauche et au moins un oeil est fermé
                 txt = "Franz veut tourner a gauche "
                 print("Gauche")
-                msg_a_envoyer = str(compteur_frame)
+                msg_a_envoyer = str(1)
             elif a1 > 40 and OEIL == True:  # Si la tête est inclinée vers la droite et au moins un oeil est fermé
                 txt = "Franz veut tourner a droite "
                 print("Droite")
-                msg_a_envoyer = str(compteur_frame)
+                msg_a_envoyer = str(2)
             else:
-                msg_a_envoyer = str(compteur_frame)
+                msg_a_envoyer = str(0)
 
 
 
@@ -195,7 +195,7 @@ while True:
 
     print(msg_a_envoyer)
 
-    connexion_avec_serveur.send(str(compteur_frame).encode('utf8'))
+    connexion_avec_serveur.send(str(msg_a_envoyer).encode('utf8'))
 
 
     cv2.imshow("Frame", frame)  # Affichage du visuel
