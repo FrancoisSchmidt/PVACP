@@ -67,6 +67,8 @@ compteur_frame = 0
 
 
 hote = "192.168.8.199"
+hote = "192.168.43.183"
+#hote = "localhost"
 port = 12800
 connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connexion_avec_serveur.connect((hote, port))
