@@ -14,9 +14,13 @@ print("Le serveur écoute à présent sur le port {}".format(port))
 serveur_lance = True
 clients_connectes = []
 
-x = array([[0, 0, -3, 3, 0]]).T  # x=(x,y,θ,v,w)
 
-ax = init_figure(-60, 60, -60, 60)
+
+dt = 0.1
+awind, ψ = 5, pi/2
+listex, listey = [], []
+x = array([[0, 0, -3, 3, 0]]).T  # x=(x,y,θ,v,w)
+ax=init_figure(-100,100,-60,60)
 
 
 client = False
@@ -45,30 +49,26 @@ while serveur_lance:
         msg_recu = client.recv(1024)
 
         # Peut planter si le message contient des caractères spéciaux
-        msg_recu = int(msg_recu.decode('utf8'))
-        print("Reçu {}".format(msg_recu))
+        msg_recu = int(msg_recu.decode('utf8')[-1])
         print("Reçu :", msg_recu)
         # client.send(b"5 / 5")
         if msg_recu != "fin":
-            #
-            # clear(ax)
-            #
+
+            clear(ax)
+
             a = array([[x[0][0]], [x[1][0]]])
             b = array([[x[0][0] + cos(x[2][0])],
                         [x[1][0] + sin(x[2][0])]])
 
             if msg_recu == 2:
-                commande = 2
-            elif msg_recu == 1:
                 commande = 1
+            elif msg_recu == 1:
+                commande = -1
             else:
                 commande = 0
             print("Commande :", commande)
 
-            #print(msg_recu.decode())
-            #commande = int(msg_recu.decode())
-            #print("Commande :", commande)
-            #
+
             listex.append(a[0, 0]), listex.append(b[0, 0])
             listey.append(a[1, 0]), listey.append(b[1, 0])
             # plot([a[0,0],b[0,0]],[a[1,0],b[1,0]],'blue')  # afficher le segment courant
@@ -81,6 +81,9 @@ while serveur_lance:
             x = x + dt * xdot
             draw_sailboat(x, δs, u[0, 0], ψ, awind)
             draw_arrow(75, 40, ψ, 5 * awind, 'red')
+            ax.text(68, 53, "Wind")
+            ax.text(66, 30, "Speed")
+            ax.text(67, 24, str(round(x[3][0], 1)))
 
 print("Fermeture des connexions")
 for client in clients_connectes:
