@@ -68,7 +68,7 @@ def draw_sailboat(x, δs, δr, ψ, awind):
     plot2D(R @ Rr @ rudder, 'red');
     #draw_arrow(x[0], x[1], ψ, 5 * awind, 'red')
 
-def update_ax(x, ax):
+def update_ax(x, ax, commande):
     abs = str(x[0,0]/100)
     ord = str(x[1,0]/100)
 
@@ -89,6 +89,14 @@ def update_ax(x, ax):
     limyb = ord-100
     limyh = ord+100
 
+    dir = ""
+    if commande == 1:
+        dir = "droite"
+    elif commande == -1:
+        dir = "gauche"
+    else:
+        dir = "devant"
+
     print("Axes : ", x[0,0],limxb,limxh, limyb, limyh)
 
     ax.set_xlim(limxb, limxh)
@@ -96,6 +104,7 @@ def update_ax(x, ax):
     ax.text(68 + (limxb + limxh)/2, 53 + (limyb+limyh)/2, "Wind")
     ax.text(66 + (limxb + limxh)/2, 30 + (limyb+limyh)/2, "Speed")
     ax.text(67 + (limxb + limxh)/2, 24 + (limyb+limyh)/2, str(round(x[3][0], 1)))
+    ax.text(50 + (limxb + limxh)/2, 0 + (limyb+limyh)/2, "Direction : "+dir)
     draw_arrow(75+ (limxb + limxh)/2, 40 + (limyb+limyh)/2, ψ, 5 * awind, 'red')
 
 def f(x,u):

@@ -55,7 +55,7 @@ while serveur_lance:
         if msg_recu != "fin":
 
             clear(ax)
-            update_ax(x,ax)
+            update_ax(x,ax, commande)
 
             a = array([[x[0][0]], [x[1][0]]])
             b = array([[x[0][0] + cos(x[2][0])],

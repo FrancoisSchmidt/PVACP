@@ -67,7 +67,7 @@ compteur_frame = 0
 
 
 hote = "192.168.8.199"
-hote = "192.168.43.183"
+#hote = "192.168.43.183"
 hote = "localhost"
 port = 12800
 connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -190,7 +190,7 @@ while True:
 
 
 
-        cv2.putText(frame, txt, (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.2, (255, 255, 255), 2)  # Affichage du texte
+        #qcv2.putText(frame, txt, (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.2, (255, 255, 255), 2)  # Affichage du texte
 
 
     print(msg_a_envoyer)
