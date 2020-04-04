@@ -2,7 +2,7 @@ import socket
 import select
 from Codes.Simulation.sailboat import *
 
-hote = '192.168.43.183'
+#hote = '192.168.43.183'
 hote = ''
 port = 12800
 
@@ -13,7 +13,6 @@ print("Le serveur écoute à présent sur le port {}".format(port))
 
 serveur_lance = True
 clients_connectes = []
-
 
 
 dt = 0.1
@@ -39,8 +38,6 @@ while client == False:
 while len(clients_a_lire)==0:
     clients_a_lire, wlist, xlist = select.select(clients_connectes,
                                                  [], [], 0.025)
-
-
 
 commande = 0
 while serveur_lance:
