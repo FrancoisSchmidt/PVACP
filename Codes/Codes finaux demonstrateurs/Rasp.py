@@ -42,47 +42,44 @@ def mouth_aspect_ratio(mouth):
     return mar
 
 
-EYE_AR_THRESH = 0.26  # Constante en-deça de laquelle l'oeil est considéré comme fermé
-EYE_AR_CONSEC_FRAMES = 7  # Nombre de frames minimum pour considérer l'oeil comme fermé
-MOUTH_AR_THRESH = 0.5  # Constante au dela de laquelle la bouche est considérée comme ouverte
+EYE_AR_THRESH = 0.26        # Constante en-deça de laquelle l'oeil est considéré comme fermé
+EYE_AR_CONSEC_FRAMES = 7    # Nombre de frames minimum pour considérer l'oeil comme fermé
+MOUTH_AR_THRESH = 0.5       # Constante au dela de laquelle la bouche est considérée comme ouverte
 MOUTH_AR_CONSEC_FRAMES = 7  # Nombre de frames minimum pour considérer la bouche comme ouverte
 
-EYE_CLOSE_FRAMES = 10  # Nombre de frames pendant lesquelles l'oeil est encore considéré comme fermé
+EYE_CLOSE_FRAMES = 10   # Nombre de frames pendant lesquelles l'oeil est encore considéré comme fermé
 OPEN_COUNTER_right = 0  # Compteur oeil droit
-OPEN_COUNTER_left = 0  # Compteur oeil gauche
+OPEN_COUNTER_left = 0   # Compteur oeil gauche
 COUNTER_right = 0
 COUNTER_left = 0
-OEIL = False  # Oeil=False s'il est ouvert, et True s'il est fermé
+OEIL = False            # Oeil=False s'il est ouvert, et True s'il est fermé
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)   #Acquisition du flux vidéo
 
-detector = dlib.get_frontal_face_detector()  # Importation du face_detector de dlib
+detector = dlib.get_frontal_face_detector()   # Importation du face_detector de dlib
 predictor = dlib.shape_predictor(
-    "shape_predictor_68_face_landmarks.dat")  # Importation de la base de données de visages
+    "../shape_predictor_68_face_landmarks.dat")  # Importation de la base de données de visages
 
 (lStart, lEnd) = face_utils.FACIAL_LANDMARKS_IDXS["left_eye"]  # Coordonnées de l'oeil gauche
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]  # Coordonnées de l'oeil droit
 compteur_frame = 0
 
 
-
-hote = "192.168.8.199"
-#hote = "192.168.43.183"
-hote = "localhost"
+hote = "localhost"  # A modifier si la démonstration se fait avec deux ordinateurs différents
 port = 12800
-connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-connexion_avec_serveur.connect((hote, port))
+connexion_avec_serveur = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  #Création de la socket
+connexion_avec_serveur.connect((hote, port))                                #Connection au serveur
 print("Connexion établie avec le serveur sur le port {}".format(port))
 
 
-msg_a_envoyer = "0"
+msg_a_envoyer = "0"     #Initialisation
 
 while True:
     compteur_frame += 1
-    ret, frame = cap.read()  # Leture de frame
+    ret, frame = cap.read()                   # Lecture de frame
     frame = imutils.resize(frame, width=450)  # Resize
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    tickmark = cv2.getTickCount()  # Nombre de ticks
+    tickmark = cv2.getTickCount()             # Nombre de ticks
     faces = detector(gray, 0)
     if faces is not None:
         i = np.zeros(shape=(frame.shape), dtype=np.uint8)  # Si pas de visage détécté, Matrice de zéros
@@ -114,25 +111,25 @@ while True:
 
         shape = predictor(gray, face)
         shape = face_utils.shape_to_np(shape)
-        mouth = shape[48:58]  # Coordonées de la bouche
+        mouth = shape[48:58]    # Coordonées de la bouche
         cv2.circle(frame, (mouth[0][0], mouth[0][1]), 3, (0, 0, 255), -1)  # Marque les contours de la bouche
         cv2.circle(frame, (mouth[-1][0], mouth[-1][1]), 3, (0, 0, 255), -1)
         cv2.circle(frame, (mouth[3][0], mouth[3][1]), 3, (0, 0, 255), -1)
         cv2.circle(frame, (mouth[6][0], mouth[6][1]), 3, (0, 0, 255), -1)
         mar = mouth_aspect_ratio(mouth)  # Calcule le mouth aspect ratio
 
-        leftEye = shape[lStart:lEnd]  # Récupère les coordonnées de l'oeil gauche
-        rightEye = shape[rStart:rEnd]  # Récupère les coordonnées de l'oeil droite
-        leftEAR = eye_aspect_ratio(leftEye)  # Calcule le eye aspect ratio oeil gauche
-        rightEAR = eye_aspect_ratio(rightEye)  # De même oeil droit
-        ear = (leftEAR + rightEAR) / 2.0  # Moyenne des deux yeux
+        leftEye = shape[lStart:lEnd]            # Récupère les coordonnées de l'oeil gauche
+        rightEye = shape[rStart:rEnd]           # Récupère les coordonnées de l'oeil droite
+        leftEAR = eye_aspect_ratio(leftEye)     # Calcule le eye aspect ratio oeil gauche
+        rightEAR = eye_aspect_ratio(rightEye)   # De même oeil droit
+        ear = (leftEAR + rightEAR) / 2.0        # Moyenne des deux yeux
         leftEyeHull = cv2.convexHull(leftEye)
         rightEyeHull = cv2.convexHull(rightEye)
         cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)  # Dessin du contour des yeux
         cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 
         if leftEAR < EYE_AR_THRESH:  # Si l'oeil gauche est considéré comme fermé
-            COUNTER_left += 1  # Incrémentation du compteur de frame
+            COUNTER_left += 1        # Incrémentation du compteur de frame
             OPEN_COUNTER_left = 0
             cv2.putText(frame, "EAR: {:.2f}".format(leftEAR), (10, 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
@@ -173,29 +170,24 @@ while True:
         print(compteur_frame, '\n')
         if OEIL == True and mar > MOUTH_AR_THRESH and a1 < 40 and a1 > -40:  # Si l'oei est fermé et la bouche ouverte
             print('Remise à zéro')  # Remise à zéro du gouvernail
-            msg_a_envoyer = str(3)
+            msg_a_envoyer = str(3)  # On modifie le message à envoyer au serveur
         else:
             flag = 1
-            txt = "Franz ne fait rien "
+            txt = "Pilote ne fait rien "
             if a1 < -40 and OEIL == True:  # Si la tête est inclinée vers la gauche et au moins un oeil est fermé
-                txt = "Franz veut tourner a gauche "
+                txt = "Pilote veut tourner a gauche "
                 print("Gauche")
-                msg_a_envoyer = str(1)
+                msg_a_envoyer = str(1)  # Message à envoyer au serveur
             elif a1 > 40 and OEIL == True:  # Si la tête est inclinée vers la droite et au moins un oeil est fermé
-                txt = "Franz veut tourner a droite "
+                txt = "Pilote veut tourner a droite "
                 print("Droite")
-                msg_a_envoyer = str(2)
+                msg_a_envoyer = str(2)  # Message à envoyer au serveur
             else:
-                msg_a_envoyer = str(0)
-
-
-
-        #qcv2.putText(frame, txt, (10, 30), cv2.FONT_HERSHEY_PLAIN, 1.2, (255, 255, 255), 2)  # Affichage du texte
+                msg_a_envoyer = str(0)  # Message à envoyer au serveur
 
 
     print(msg_a_envoyer)
-
-    connexion_avec_serveur.send(str(msg_a_envoyer).encode('utf8'))
+    connexion_avec_serveur.send(str(msg_a_envoyer).encode('utf8'))  # Envoie de la commande au serveur
 
 
     cv2.imshow("Frame", frame)  # Affichage du visuel
