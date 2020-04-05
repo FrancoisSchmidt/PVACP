@@ -179,11 +179,7 @@ def main():
         x = x + dt*xdot
         draw_sailboat(x,δs,u[0,0],ψ,awind)
         draw_arrow(75, 40, ψ, 2 * awind, 'red')
-        #ax.text(70, 60, "coucou", transform=ax.transAxes, fontsize=14,
-                #verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
         ax.text(68, 53, "Wind")
-        ax.text(66, 30, "Speed")
-        ax.text(67, 24, str(round(x[3][0], 1)))
 
 
 
